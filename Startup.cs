@@ -55,7 +55,7 @@ namespace StickyNotes
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=StickyNotes}/{action=Index}/{id?}");
+                    pattern: "{controller=StickyNotes}/{action=Board}/{id?}");
             });
         }
     }

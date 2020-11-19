@@ -1,88 +1,64 @@
-<div class='all-slides'>
+@model IEnumerable<StickyNotes.Models.Notes>
 
-  <div class='slide'>Slide1</div>
-  <div class='slide'>Slide2</div>
-  <div class='slide'>Slide3</div>
 
+<a href='/stickynotes/board'><button onclick='resetLocs()'>Reset</button></a>
+<div id="grid1" class="grid" >
+    <div id="sticky0" class="box" >idk jus seein what shows up and where it goes and if it wraps or idk is it jus gona mess up like usual or blah some more blah</div>
+    <div id="sticky1" class="box" >bLH blah</div>
 </div>
+<tbale>
+    <th>col1</th>
+        <td>123</td>
+    <th>col2</th>
+        <td>456</td>
+</tbale>
+
+
+@* @foreach (var note in Notes)
+{
+    @note.Title
+    @note.Text
+} *@
+
 
 <script>
-$(".slide").each(function(i) {
-  var item = $(this);
-  var item_clone = item.clone();
-  item.data("clone", item_clone);
-  var position = item.position();
-  item_clone
-  .css({
-    left: position.left,
-    top: position.top,
-    visibility: "hidden"
-  })
-    .attr("data-pos", i+1);
-  
-  $("#cloned-slides").append(item_clone);
-});
+    var sPositions = localStorage.positions || "{}",
+    positions = JSON.parse(sPositions);
+    console.log(positions)
+    $.each(positions, function (id, pos) {$("#" + id).css(pos)})
 
-$(".all-slides").sortable({
-  
-  axis: "y",
-  revert: true,
-  scroll: false,
-  placeholder: "sortable-placeholder",
-  cursor: "move",
-
-  start: function(e, ui) {
-    ui.helper.addClass("exclude-me");
-    $(".all-slides .slide:not(.exclude-me)")
-      .css("visibility", "hidden");
-    ui.helper.data("clone").hide();
-    $(".cloned-slides .slide").css("visibility", "visible");
-  },
-
-  stop: function(e, ui) {
-    $(".all-slides .slide.exclude-me").each(function() {
-      var item = $(this);
-      var clone = item.data("clone");
-      var position = item.position();
-
-      clone.css("left", position.left);
-      clone.css("top", position.top);
-      clone.show();
-
-      item.removeClass("exclude-me");
+    for (let y = 0; y <= 12; y++) {
+        $("#sticky"+y).draggable({
+        @* grid: [ 250, 250 ], *@
+        containment: "#containment-wrapper",
+        scroll: false,
+        stop: function (event, ui) {positions[this.id] = ui.position 
+        localStorage.positions = JSON.stringify(positions)}
     });
-    
-    $(".all-slides .slide").each(function() {
-      var item = $(this);
-      var clone = item.data("clone");
-      
-      clone.attr("data-pos", item.index());
-    });
+    }
 
-    $(".all-slides .slide").css("visibility", "visible");
-    $(".cloned-slides .slide").css("visibility", "hidden");
-  },
-
-  change: function(e, ui) {
-    $(".all-slides .slide:not(.exclude-me)").each(function() {
-      var item = $(this);
-      var clone = item.data("clone");
-      clone.stop(true, false);
-      var position = item.position();
-      clone.animate({
-        left: position.left,
-        top: position.top
-      }, 200);
-    });
-  }
-  
-});
+    function resetLocs() {
+        localStorage.positions = "";
+    }
 </script>
-
 <style>
-    .slide {
-        width: 11em;
-        height: 11em;
-        border: solid black 2px;
+    html {
+        left: 0;
+    }
+    .grid {
+        width: 93em;
+        margin-left: 33em;
+        margin-top: -15em;
+    }
+    .box {
+        position: relative;
+        float: left;
+        height: 14em;
+        width: 14em;
+        background-color: yellow;
+        border: 2px solid black;
+        margin:3em;
+        margin-left: 5.6em;
+        transform:rotate(-3deg);
     }
 </style>

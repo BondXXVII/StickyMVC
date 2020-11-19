@@ -149,6 +149,10 @@ namespace StickyNotes.Controllers
         {
             return View();
         } 
+        // public async Task<IActionResult> Board()
+        // {
+        //     return View(await _context.Note.ToListAsync());
+        // }
 
         private bool NotesExists(int id)
         {
