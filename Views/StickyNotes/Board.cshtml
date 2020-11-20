@@ -1,24 +1,83 @@
 @model IEnumerable<StickyNotes.Models.Notes>
 
-
+<button onclick="newCol()">new col</button>
 <a href='/stickynotes/board'><button onclick='resetLocs()'>Reset</button></a>
-<div id="grid1" class="grid" >
+@* <div class="all-slides" >
     <div id="sticky0" class="box" >idk jus seein what shows up and where it goes and if it wraps or idk is it jus gona mess up like usual or blah some more blah</div>
     <div id="sticky1" class="box" >bLH blah</div>
-</div>
-<tbale>
-    <th>col1</th>
-        <td>123</td>
-    <th>col2</th>
-        <td>456</td>
-</tbale>
+</div> *@
 
+@* <table>
+    <tr id="column">
+        <th>col1</th>
+        <th>col2</th>
+        <th>col3</th>
+        <th>col4</th>
+    </tr>
+    <tr>
+        <td class="contain">
+        <div id="sticky3" class="box" >idk jus seein what shows up and where it goes and if it wraps or idk is it jus gona mess up like usual or blah some more blah</div>
+        </td>
+        <td class="contain">
+        <div id="sticky0" class="box" >idk jus seein what shows up and where it goes and if it wraps or idk is it jus gona mess up like usual or blah some more blah</div>
+        </td>
+        <td class="contain">
+        <div id="sticky1" class="box" >bLH blah</div>
+        </td>
+    </tr>
+</table> *@
 
-@* @foreach (var note in Notes)
+@{int c = 0;}
+@{int i = 9;}
+<table>
+    <tr id='head'>
+        @foreach (var col in Model)
+        {
+            <th id='@("column" + c.ToString())'> @col.Title </th>
+            c++;
+        }
+        <th>col2</th>
+        <th>col3</th>
+        <th>col4</th>
+    </tr>
+    <tr>
+        @foreach (var note in Model)
+        {
+            <td>
+            <div id= '@("sticky" + i.ToString())' class="box">@note.Title <br> @note.Text</div>
+            </td>
+            i++;
+        }
+    </tr>
+    <tr>
+    </tr>
+</table>
+
+@* @{int i = 9;}
+@foreach (var note in Model)
 {
-    @note.Title
-    @note.Text
+    <div id= '@("sticky" + i.ToString())' class="box">@note.Title <br> @note.Text</div>
+    i++;
 } *@
+
+
+@* @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table> *@
 
 
 <script>
@@ -29,7 +88,7 @@
 
     for (let y = 0; y <= 12; y++) {
         $("#sticky"+y).draggable({
-        @* grid: [ 250, 250 ], *@
+        grid: [ 280, 280 ],
         containment: "#containment-wrapper",
         scroll: false,
         stop: function (event, ui) {positions[this.id] = ui.position 
@@ -40,25 +99,40 @@
     function resetLocs() {
         localStorage.positions = "";
     }
+
+    function newCol() { 
+        document.getElementById("head").innerHTML += "<th>what it do</th>"; //$ dont work fix later
+        @* var whatItSays = document.getElementById("input").value; *@
+        @* document.getElementById("sticky"+i).innerHTML = whatItSays; *@
+        @* i++; *@
+    }
 </script>
 <style>
+    th {
+        width: 280px;
+        text-align: center;
+    }
+    td {
+        
+    }
     html {
         left: 0;
     }
     .grid {
-        width: 93em;
-        margin-left: 33em;
-        margin-top: -15em;
+        @* width: 93em; *@
+        @* margin-left: 33em; *@
+        @* margin-top: -15em; *@
     }
+    .contain{width: 280px; height: 280px;}
     .box {
         position: relative;
         float: left;
-        height: 14em;
-        width: 14em;
+        height: 250px;
+        width: 250px;
         background-color: yellow;
         border: 2px solid black;
-        margin:3em;
-        margin-left: 5.6em;
+        padding: 15px;
+        @* margin-left: 5.6em; *@
         transform:rotate(-3deg);
     }
 </style>

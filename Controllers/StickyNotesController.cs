@@ -145,14 +145,14 @@ namespace StickyNotes.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Board()
-        {
-            return View();
-        } 
-        // public async Task<IActionResult> Board()
+        // public IActionResult Board()
         // {
-        //     return View(await _context.Note.ToListAsync());
-        // }
+        //     return View();
+        // } 
+        public async Task<IActionResult> Board()
+        {
+            return View(await _context.Note.ToListAsync());
+        }
 
         private bool NotesExists(int id)
         {
